@@ -1,0 +1,352 @@
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #8b5cf6;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --info-color: #3b82f6;
+    --dark-color: #1f2937;
+    --light-color: #f3f4f6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    border-bottom: none;
+    padding: 1.25rem;
+}
+
+.form-control, .form-control-sm {
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-control-sm:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+.todo-list {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.todo-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.todo-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.todo-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: white;
+    border-radius: 10px;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transform: translateX(5px);
+}
+
+.todo-item[data-priority="High"] {
+    border-left-color: var(--danger-color);
+}
+
+.todo-item[data-priority="Medium"] {
+    border-left-color: var(--warning-color);
+}
+
+.todo-item[data-priority="Low"] {
+    border-left-color: var(--info-color);
+}
+
+.todo-item.completed {
+    opacity: 0.7;
+    background: #f9fafb;
+}
+
+.todo-item.overdue {
+    background: #fef2f2;
+}
+
+.todo-checkbox {
+    margin-right: 1rem;
+}
+
+.checkbox-link {
+    color: #6b7280;
+    transition: color 0.3s ease;
+}
+
+.checkbox-link:hover {
+    color: var(--success-color);
+    text-decoration: none;
+}
+
+.todo-content {
+    flex: 1;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.todo-title {
+    margin: 0;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.todo-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.todo-desc {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.todo-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.quick-stat {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.quick-stat:last-child {
+    border-bottom: none;
+}
+
+.quick-stat .badge {
+    margin-right: 0.5rem;
+    min-width: 35px;
+    padding: 0.5rem;
+}
+
+.filter-section {
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.stat-details h4 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--dark-color);
+}
+
+.stat-details p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.footer {
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    margin-top: auto;
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .todo-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .todo-actions {
+        width: 100%;
+        margin-top: 1rem;
+        justify-content: flex-end;
+    }
+    
+    .filter-section .row {
+        gap: 0.5rem;
+    }
+    
+    .filter-section .col-md-3 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.badge {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-danger {
+    background-color: var(--danger-color);
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+}
+
+.badge-info {
+    background-color: var(--info-color);
+}
+
+.badge-success {
+    background-color: var(--success-color);
+}
+
+.text-decoration-line-through {
+    text-decoration: line-through;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.todo-item {
+    animation: fadeIn 0.5s ease;
+}

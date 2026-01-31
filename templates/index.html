@@ -1,77 +1,224 @@
 {% extends 'base.html' %}
 {% block body %}
-   
-    <div class="container my-5">
-        <H1>Add Your Todo</H1>
-        <form action="/" method="POST">
-  <div class="form-group">
-    <label for="title">Todo Title</label>
-    <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp">
-   
-  </div>
-  <div class="form-group">
-    <label for="desc">Todo Description</label>
-    <input type="text" class="form-control" name="desc" id="desc">
-  </div>
-  
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-    </div>
-    <div class="container my-3">
-    
-  <tbody>
-    {% if allTodo|length==0 %}
-    <div class="alert alert-danger" role="alert">
-        No records
-    </div>
-        
-       {% else%}
-           <table class="table"> <H2>Your Todo</H2>
-  <thead>
-    <tr>
-      <th scope="col">SNo</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-      <th scope="col">Time</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-    {% endif %}
-    {% for todo in allTodo %}
-         <tr>
-      <th scope="row">{{loop.index}}</th>
-      <td>{{todo.title}}</td>
-      <td>{{todo.desc}}</td>
-      <td>{{todo.date_created}}</td>
-       <td>
-        
-       <a href="/update/{{todo.sno}}" type="button" 
-   class="btn btn-outline-dark btn-sm mx-1">
-   Update
-</a>
-        <a href="/delete/{{todo.sno}}" type="button" 
-   class="btn btn-outline-dark btn-sm mx-1">
-   Delete
-</a>
 
-    </td>
-    </tr>
-    {% endfor %}
-   
-    
-  </tbody>
-</table>
-    </div>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-plus-circle"></i> Add New Todo</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/" method="POST" id="todoForm">
+                        <div class="form-group">
+                            <label for="title"><i class="fas fa-heading"></i> Title</label>
+                            <input type="text" class="form-control" name="title" id="title" required placeholder="Enter task title">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="desc"><i class="fas fa-align-left"></i> Description</label>
+                            <textarea class="form-control" name="desc" id="desc" rows="3" required placeholder="Task details"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category"><i class="fas fa-tag"></i> Category</label>
+                            <select class="form-control" name="category" id="category">
+                                <option value="Personal">Personal</option>
+                                <option value="Work">Work</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Health">Health</option>
+                                <option value="Education">Education</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="priority"><i class="fas fa-flag"></i> Priority</label>
+                            <select class="form-control" name="priority" id="priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="due_date"><i class="fas fa-calendar"></i> Due Date</label>
+                            <input type="date" class="form-control" name="due_date" id="due_date">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-plus"></i> Add Todo
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-{% endblock body %}
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-gradient-success text-white">
+                    <h6 class="mb-0"><i class="fas fa-tachometer-alt"></i> Quick Stats</h6>
+                </div>
+                <div class="card-body">
+                    <div class="quick-stat">
+                        <span class="badge badge-primary">{{ stats.total }}</span> Total Tasks
+                    </div>
+                    <div class="quick-stat">
+                        <span class="badge badge-success">{{ stats.completed }}</span> Completed
+                    </div>
+                    <div class="quick-stat">
+                        <span class="badge badge-warning">{{ stats.active }}</span> Active
+                    </div>
+                    <div class="quick-stat">
+                        <span class="badge badge-danger">{{ stats.overdue }}</span> Overdue
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-gradient-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-list-ul"></i> Your Todos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <form method="GET" action="/" class="form-inline mb-3">
+                                <div class="input-group flex-grow-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    </div>
+                                    <input type="text" name="search" class="form-control" placeholder="Search todos..." value="{{ search_query }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                        {% if search_query %}
+                                        <a href="/" class="btn btn-secondary">Clear</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="filter-section mb-3">
+                        <form method="GET" action="/" id="filterForm">
+                            <input type="hidden" name="search" value="{{ search_query }}">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <select class="form-control form-control-sm" name="category" onchange="this.form.submit()">
+                                        <option value="all" {% if filter_category == 'all' %}selected{% endif %}>All Categories</option>
+                                        {% for cat in categories %}
+                                        <option value="{{ cat }}" {% if filter_category == cat %}selected{% endif %}>{{ cat }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control form-control-sm" name="priority" onchange="this.form.submit()">
+                                        <option value="all" {% if filter_priority == 'all' %}selected{% endif %}>All Priorities</option>
+                                        <option value="High" {% if filter_priority == 'High' %}selected{% endif %}>High</option>
+                                        <option value="Medium" {% if filter_priority == 'Medium' %}selected{% endif %}>Medium</option>
+                                        <option value="Low" {% if filter_priority == 'Low' %}selected{% endif %}>Low</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control form-control-sm" name="status" onchange="this.form.submit()">
+                                        <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Status</option>
+                                        <option value="active" {% if filter_status == 'active' %}selected{% endif %}>Active</option>
+                                        <option value="completed" {% if filter_status == 'completed' %}selected{% endif %}>Completed</option>
+                                        <option value="overdue" {% if filter_status == 'overdue' %}selected{% endif %}>Overdue</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control form-control-sm" name="sort" onchange="this.form.submit()">
+                                        <option value="date_created" {% if sort_by == 'date_created' %}selected{% endif %}>Sort by Date</option>
+                                        <option value="priority" {% if sort_by == 'priority' %}selected{% endif %}>Sort by Priority</option>
+                                        <option value="due_date" {% if sort_by == 'due_date' %}selected{% endif %}>Sort by Due Date</option>
+                                        <option value="title" {% if sort_by == 'title' %}selected{% endif %}>Sort by Title</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    {% if stats.completed > 0 %}
+                    <div class="mb-3">
+                        <a href="/delete_completed" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete all completed todos?')">
+                            <i class="fas fa-trash"></i> Clear Completed
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if allTodo|length == 0 %}
+                    <div class="empty-state">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No todos found</h5>
+                        <p class="text-muted">Start by adding a new todo or adjust your filters</p>
+                    </div>
+                    {% else %}
+                    <div class="todo-list">
+                        {% for todo in allTodo %}
+                        <div class="todo-item {% if todo.completed %}completed{% endif %} {% if todo.is_overdue %}overdue{% endif %}" data-priority="{{ todo.priority }}">
+                            <div class="todo-checkbox">
+                                <a href="/toggle/{{ todo.sno }}" class="checkbox-link">
+                                    <i class="far {% if todo.completed %}fa-check-circle text-success{% else %}fa-circle{% endif %} fa-2x"></i>
+                                </a>
+                            </div>
+                            <div class="todo-content">
+                                <div class="todo-header">
+                                    <h6 class="todo-title {% if todo.completed %}text-decoration-line-through{% endif %}">
+                                        {{ todo.title }}
+                                    </h6>
+                                    <div class="todo-badges">
+                                        <span class="badge badge-{{ 'danger' if todo.priority == 'High' else 'warning' if todo.priority == 'Medium' else 'info' }}">
+                                            {{ todo.priority }}
+                                        </span>
+                                        <span class="badge badge-secondary">{{ todo.category }}</span>
+                                    </div>
+                                </div>
+                                <p class="todo-desc {% if todo.completed %}text-decoration-line-through{% endif %}">{{ todo.desc }}</p>
+                                <div class="todo-meta">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar-plus"></i> Created: {{ todo.date_created.strftime('%b %d, %Y') }}
+                                    </small>
+                                    {% if todo.due_date %}
+                                    <small class="{% if todo.is_overdue %}text-danger{% else %}text-muted{% endif %}">
+                                        <i class="fas fa-calendar-check"></i> Due: {{ todo.due_date.strftime('%b %d, %Y') }}
+                                        {% if not todo.completed and todo.days_until_due is not none %}
+                                            {% if todo.days_until_due < 0 %}
+                                                ({{ -todo.days_until_due }} days overdue)
+                                            {% elif todo.days_until_due == 0 %}
+                                                (Today!)
+                                            {% elif todo.days_until_due == 1 %}
+                                                (Tomorrow)
+                                            {% else %}
+                                                ({{ todo.days_until_due }} days left)
+                                            {% endif %}
+                                        {% endif %}
+                                    </small>
+                                    {% endif %}
+                                    {% if todo.completed_date %}
+                                    <small class="text-success">
+                                        <i class="fas fa-check"></i> Completed: {{ todo.completed_date.strftime('%b %d, %Y') }}
+                                    </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="todo-actions">
+                                <a href="/update/{{ todo.sno }}" class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/delete/{{ todo.sno }}" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
